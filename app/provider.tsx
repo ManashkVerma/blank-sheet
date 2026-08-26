@@ -1,4 +1,5 @@
 "use client";
+
 import { UserDetailContext } from "@/context/UserDetailContext";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
