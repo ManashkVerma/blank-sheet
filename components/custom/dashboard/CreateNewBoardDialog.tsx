@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Dialog,
   DialogClose,
@@ -14,10 +14,15 @@ import { toast } from "@/components/ui/toast";
 import axios from "axios";
 import { LoaderCircleIcon, Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
+import type { VariantProps } from "class-variance-authority";
 
 import { useState } from "react";
 
-function CreateNewBoardDialog({ variant }) {
+function CreateNewBoardDialog({
+  variant,
+}: {
+  variant?: VariantProps<typeof buttonVariants>["variant"];
+}) {
   const [workspaceName, setWorkspaceName] = useState("");
   const [loading, setLoading] = useState(false);
   const [dialog, setDialog] = useState(false);
@@ -49,8 +54,8 @@ function CreateNewBoardDialog({ variant }) {
       title: "New Workspace Created",
     });
     setLoading(false);
-    setDialog(false)
-    router.push(`/workspace/${projectId}`)
+    setDialog(false);
+    router.push(`/workspace/${projectId}`);
   }
 
   return (
