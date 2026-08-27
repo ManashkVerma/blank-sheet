@@ -24,6 +24,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import CreateNewBoardDialog from "./CreateNewBoardDialog";
 
 export function AppSidebar() {
   const path = usePathname();
@@ -38,7 +39,7 @@ export function AppSidebar() {
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          <Button variant="secondary">+ Create New Board</Button>
+          <CreateNewBoardDialog variant="secondary" />
         </SidebarGroup>
         <SidebarGroup>
           <SidebarGroupLabel>My Boards</SidebarGroupLabel>
