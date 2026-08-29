@@ -5,20 +5,16 @@ import "@excalidraw/excalidraw/index.css";
 import axios from "axios";
 import { useParams } from "next/navigation";
 import { useRef, useState } from "react";
-import "./whiteboard.css";
 import {
   ArrowRight,
   Circle,
   Diamond,
-  DiamondPlus,
   Eraser,
   Hand,
   Image,
   Minus,
   MousePointer2,
   Pencil,
-  PencilIcon,
-  PencilRulerIcon,
   Square,
   Type,
 } from "lucide-react";
@@ -88,18 +84,30 @@ function Whiteboard() {
   const saveTimeRef = useRef<any>(null);
   const { projectId } = useParams();
   const [activeTool, setActiveTool] = useState("selection");
+  const [selectedElement, setSelectedElement] = useState<any>(null);
+  const [canvasState, setCanvasState] = useState();
 
   function handleCanvasChange(
-    element: readonly any[],
+    elements: readonly any[],
     appState: any,
     files: any,
   ) {
+    setCanvasState(appState);
+
+    const selectedIds = Object.keys(appState.selectedElementIds || {});
+
+    if (selectedIds?.length == 1) {
+      const element = elements.find((el) => el.id == selectedIds[0]);
+      setSelectedElement(element);
+    } else {
+      setSelectedElement(null);
+    }
     if (saveTimeRef?.current) {
       clearTimeout(saveTimeRef.current);
     }
 
     saveTimeRef.current = setTimeout(() => {
-      //   SaveCanvasChanges(element, appState, files);
+      //   SaveCanvasChanges(elements, appState, files);
       //   toast.add({
       //     title: "Changes Saved",
       //     type: "success",
@@ -129,25 +137,33 @@ function Whiteboard() {
     });
   }
 
+  function getFloatingPosition() {
+    if (!selectedElement || !canvasState) {
+      return { left: 0, top: 0 };
+    }
+
+    const zoom = canvasState?.zoom?.value ?? 1;
+
+    const scrollX = canvasState.scrollX ?? 0;
+    const scrollY = canvasState.scrollY ?? 0;
+    const centerX = selectedElement.x + selectedElement.width / 2;
+    const screenX = (centerX + scrollX) * zoom;
+    const screenY = (selectedElement.y + scrollY) * zoom;
+
+    return {
+      left: screenX,
+      top: screenY - 60,
+    };
+  }
+
+  const floatingPosition = getFloatingPosition();
+  console.log(floatingPosition);
   return (
     <div style={{ height: "91vh" }}>
       <Excalidraw
         excalidrawAPI={(api) => setExcalidrawAPI(api)}
         onChange={handleCanvasChange}
       />
-      <div className="absolute left-4 top-1/2 z-50 -translate-y-1/2 flex flex-col gap-1 rounded-2xl bg-white border p-1.5 shadow-xl">
-        {tools.map((tool) => {
-          const Icon = tool.icon;
-          return (
-            <button
-              className={`flex h-10 w-10 items-center justify-center rounded-xl transition hover:bg-blue-700/10 hover:cursor-pointer ${activeTool === tool.name ? "bg-blue-700/30" : null}`}
-              onClick={() => changeTool(tool.name)}
-            >
-              <Icon size="19" className={tool.color} />
-            </button>
-          );
-        })}
-      </div>
     </div>
   );
 }
