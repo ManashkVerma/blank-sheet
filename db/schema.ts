@@ -5,6 +5,7 @@ import {
   serial,
   text,
   timestamp,
+  jsonb,
 } from "drizzle-orm/pg-core";
 
 export const users = pgTable("users", {
@@ -23,6 +24,16 @@ export const projects = pgTable("projects", {
 
   createdAt: timestamp("craeteed_at").defaultNow().notNull(),
 });
+
+export const WhiteBoardData = pgTable("whiteboardData", {
+  id: serial("id").primaryKey(),
+  projectId: varchar("projectid").notNull().unique().references(() => projects.projectId),
+  elements: jsonb("elements"),
+  appState: jsonb("appState"),
+  files: jsonb("files"),
+
+  updatedAt: timestamp("updatedAt").defaultNow().notNull()
+})
 
 export type User = typeof users.$inferSelect;
 export type NewUser = typeof users.$inferInsert;
