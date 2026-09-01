@@ -1,158 +1,124 @@
 "use client";
-import { toast } from "@/components/ui/toast";
-import { Excalidraw } from "@excalidraw/excalidraw";
+
+import dynamic from "next/dynamic";
 import "@excalidraw/excalidraw/index.css";
 import axios from "axios";
 import { useParams } from "next/navigation";
 import { useRef, useState } from "react";
-import {
-  ArrowRight,
-  Circle,
-  Diamond,
-  Eraser,
-  Hand,
-  Image,
-  Minus,
-  MousePointer2,
-  Pencil,
-  Sparkle,
-  Square,
-  Type,
-} from "lucide-react";
-import { ExcalidrawImperativeAPI } from "@excalidraw/excalidraw/types";
+import type { ExcalidrawImperativeAPI } from "@excalidraw/excalidraw/types";
+import { Sparkle } from "lucide-react";
+
+import { toast } from "@/components/ui/toast";
 import { Button } from "@/components/ui/button";
 import AIFloatingSidebar from "./AIFloatingSidebar";
 
-// const tools = [
-//   {
-//     name: "selection",
-//     icon: MousePointer2,
-//     color: "text-blue-600",
-//   },
-//   {
-//     name: "hand",
-//     icon: Hand,
-//     color: "text-cyan-600",
-//   },
-//   {
-//     name: "rectangle",
-//     icon: Square,
-//     color: "text-blue-600",
-//   },
-//   {
-//     name: "diamond",
-//     icon: Diamond,
-//     color: "text-emerald-500",
-//   },
-//   {
-//     name: "ellipse",
-//     icon: Circle,
-//     color: "text-amber-500",
-//   },
-//   {
-//     name: "arrow",
-//     icon: ArrowRight,
-//     color: "text-violet-500",
-//   },
-//   {
-//     name: "line",
-//     icon: Minus,
-//     color: "text-pink-500",
-//   },
-//   {
-//     name: "freedraw",
-//     icon: Pencil,
-//     color: "text-orange-500",
-//   },
-//   {
-//     name: "text",
-//     icon: Type,
-//     color: "text-indigo-500",
-//   },
-//   {
-//     name: "image",
-//     icon: Image,
-//     color: "text-green-500",
-//   },
-//   {
-//     name: "eraser",
-//     icon: Eraser,
-//     color: "text-rose-500",
-//   },
-// ];
+const Excalidraw = dynamic(
+  () =>
+    import("@excalidraw/excalidraw").then(
+      (mod) => mod.Excalidraw
+    ),
+  {
+    ssr: false,
+  }
+);
 
 function Whiteboard() {
   const [excalidrawAPI, setExcalidrawAPI] =
-    useState<ExcalidrawImperativeAPI>(null);
-  const saveTimeRef = useRef<any>(null);
-  const { projectId } = useParams();
-  const [activeTool, setActiveTool] = useState("selection");
+    useState<ExcalidrawImperativeAPI | null>(null);
+
+  const saveTimeRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Your route is /workspace/[projectid]
+  const { projectid } = useParams<{ projectid: string }>();
+
   const [selectedElement, setSelectedElement] = useState<any>(null);
-  const [canvasState, setCanvasState] = useState();
-  const [showAiSidebar, setShowAiSidebar] = useState(true);
+  const [canvasState, setCanvasState] = useState<any>(null);
+  const [showAiSidebar, setShowAiSidebar] = useState(false);
 
   function handleCanvasChange(
     elements: readonly any[],
     appState: any,
-    files: any,
+    files: any
   ) {
     setCanvasState(appState);
 
-    const selectedIds = Object.keys(appState.selectedElementIds || {});
+    const selectedIds = Object.keys(
+      appState.selectedElementIds || {}
+    );
 
-    if (selectedIds?.length == 1) {
-      const element = elements.find((el) => el.id == selectedIds[0]);
-      setSelectedElement(element);
+    if (selectedIds.length === 1) {
+      const element = elements.find(
+        (el) => el.id === selectedIds[0]
+      );
+
+      setSelectedElement(element || null);
     } else {
       setSelectedElement(null);
     }
-    if (saveTimeRef?.current) {
+
+    if (saveTimeRef.current) {
       clearTimeout(saveTimeRef.current);
     }
 
     saveTimeRef.current = setTimeout(() => {
-      // SaveCanvasChanges(elements, appState, files);
-      // toast.add({
-      //   title: "Changes Saved",
-      //   type: "success",
-      // });
+      SaveCanvasChanges(elements, appState, files);
+
+      toast.add({
+        title: "Changes Saved",
+        type: "success",
+      });
     }, 10000);
   }
 
   async function SaveCanvasChanges(
     elements: readonly any[],
     appState: any,
-    files: any,
+    files: any
   ) {
-    const result = await axios.post("/api/whiteboard", {
-      elements: elements,
-      appState: appState,
-      files: files,
-      projectId: projectId,
-    });
-  }
+    try {
+      if (!projectid) {
+        console.error("Project ID is missing");
+        return;
+      }
 
-  function changeTool(tool: any) {
-    if (!excalidrawAPI) return;
+      const result = await axios.post("/api/whiteboard", {
+        projectId: projectid,
+        elements,
+        appState,
+        files,
+      });
 
-    setActiveTool(tool);
-    excalidrawAPI.setActiveTool({
-      type: tool,
-    });
+      console.log("Whiteboard saved:", result.data);
+    } catch (error) {
+      console.error("Failed to save whiteboard:", error);
+
+      toast.add({
+        title: "Failed to save changes",
+        type: "error",
+      });
+    }
   }
 
   function getFloatingPosition() {
     if (!selectedElement || !canvasState) {
-      return { left: 0, top: 0 };
+      return {
+        left: 0,
+        top: 0,
+      };
     }
 
     const zoom = canvasState?.zoom?.value ?? 1;
 
-    const scrollX = canvasState.scrollX ?? 0;
-    const scrollY = canvasState.scrollY ?? 0;
-    const centerX = selectedElement.x + selectedElement.width / 2;
+    const scrollX = canvasState?.scrollX ?? 0;
+    const scrollY = canvasState?.scrollY ?? 0;
+
+    const centerX =
+      selectedElement.x + selectedElement.width / 2;
+
     const screenX = (centerX + scrollX) * zoom;
-    const screenY = (selectedElement.y + scrollY) * zoom;
+
+    const screenY =
+      (selectedElement.y + scrollY) * zoom;
 
     return {
       left: screenX,
@@ -163,9 +129,14 @@ function Whiteboard() {
   const floatingPosition = getFloatingPosition();
 
   return (
-    <div style={{ height: "91vh" }}>
+    <div
+      className="relative"
+      style={{ height: "91vh" }}
+    >
       <Excalidraw
-        excalidrawAPI={(api) => setExcalidrawAPI(api)}
+        excalidrawAPI={(api) => {
+          setExcalidrawAPI(api);
+        }}
         onChange={handleCanvasChange}
       />
 
@@ -173,14 +144,23 @@ function Whiteboard() {
         <Button
           variant="secondary"
           size="lg"
-          onClick={() => setShowAiSidebar((value) => !value)}
+          onClick={() =>
+            setShowAiSidebar((value) => !value)
+          }
         >
-          <Sparkle /> AI
+          <Sparkle />
+          AI
         </Button>
       </div>
-      {showAiSidebar && <AIFloatingSidebar excalidrawAPI={excalidrawAPI} setShowAiSidebar={setShowAiSidebar} />}
+
+      {showAiSidebar && (
+        <AIFloatingSidebar
+          excalidrawAPI={excalidrawAPI}
+          setShowAiSidebar={setShowAiSidebar}
+        />
+      )}
     </div>
   );
 }
 
-export default Whiteboard;
+export default Whiteboard; 
