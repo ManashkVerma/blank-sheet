@@ -6,6 +6,8 @@ import axios from "axios";
 import { useParams } from "next/navigation";
 import { useRef, useState, useEffect } from "react";
 import type { ExcalidrawImperativeAPI } from "@excalidraw/excalidraw/types";
+import type { ExcalidrawElement } from "@excalidraw/excalidraw/types/element/types";
+import type { AppState, BinaryFiles } from "@excalidraw/excalidraw/types/types";
 import { Sparkle } from "lucide-react";
 
 import { toast } from "@/components/ui/toast";
@@ -31,7 +33,7 @@ function Whiteboard({
     useState<ExcalidrawImperativeAPI | null>(null);
 
   const saveTimeRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const latestDataRef = useRef<{ elements: readonly any[]; appState: any; files: any } | null>(null);
+  const latestDataRef = useRef<{ elements: readonly ExcalidrawElement[]; appState: AppState; files: BinaryFiles } | null>(null);
 
   useEffect(() => {
     return () => {
@@ -52,14 +54,14 @@ function Whiteboard({
   // Your route is /workspace/[projectid]
   const { projectid } = useParams<{ projectid: string }>();
 
-  const [selectedElement, setSelectedElement] = useState<any>(null);
-  const [canvasState, setCanvasState] = useState<any>(null);
+  const [selectedElement, setSelectedElement] = useState<ExcalidrawElement | null>(null);
+  const [canvasState, setCanvasState] = useState<AppState | null>(null);
   const [showAiSidebar, setShowAiSidebar] = useState(false);
 
   function handleCanvasChange(
-    elements: readonly any[],
-    appState: any,
-    files: any
+    elements: readonly ExcalidrawElement[],
+    appState: AppState,
+    files: BinaryFiles
   ) {
     setCanvasState(appState);
 
@@ -90,9 +92,9 @@ function Whiteboard({
   }
 
   async function SaveCanvasChanges(
-    elements: readonly any[],
-    appState: any,
-    files: any,
+    elements: readonly ExcalidrawElement[],
+    appState: AppState,
+    files: BinaryFiles,
     isSilent: boolean = false
   ) {
     try {
