@@ -83,13 +83,15 @@ export function AppSidebar() {
         </div>
 
         <div className="flex items-center gap-2 p-4 rounded-md">
-          <Image
-            className="rounded-full"
-            src={user?.imageUrl ?? ""}
-            alt="User Image"
-            width={40}
-            height={40}
-          />
+          {user?.imageUrl && (
+            <Image
+              className="rounded-full"
+              src={user.imageUrl}
+              alt="User Image"
+              width={40}
+              height={40}
+            />
+          )}
           <h2>
             {user?.firstName} {user?.lastName}
           </h2>

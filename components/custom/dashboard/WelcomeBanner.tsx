@@ -13,7 +13,9 @@ function WelcomeBanner() {
         <p>Bring Your Ideas to Life</p>
 
         <div className="flex items-center gap-2 mt-5">
-          <CreateNewBoardDialog variant="default" />
+          <div>
+            <CreateNewBoardDialog variant="default" />
+          </div>
           <Button size="lg">
             <SparkleIcon /> AI Helper
           </Button>

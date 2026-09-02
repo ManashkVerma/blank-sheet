@@ -1,11 +1,13 @@
 import { db } from "@/db";
-import { WhiteBoardData } from "@/db/schema";
+import { WhiteBoardData, projects } from "@/db/schema";
 import { currentUser } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
+import { eq } from "drizzle-orm";
+
 export async function POST(req: Request) {
   try {
-    const { projectId, elements, files, appState } = await req.json();
+    const { projectId, elements, files, appState, thumbnail } = await req.json();
 
     const user = await currentUser();
 
@@ -41,6 +43,13 @@ export async function POST(req: Request) {
         },
       })
       .returning();
+
+    if (thumbnail) {
+      await db
+        .update(projects)
+        .set({ thumbnail })
+        .where(eq(projects.projectId, projectId));
+    }
 
     return NextResponse.json(result, { status: 200 });
   } catch (error) {

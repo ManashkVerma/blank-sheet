@@ -25,12 +25,16 @@ export async function POST(req: NextRequest) {
 
 export async function GET(req: NextRequest) {
   const searchParams = req.nextUrl.searchParams;
-  const projectId = searchParams.get("projectId ");
+  const projectId = searchParams.get("projectId");
 
   const user = await currentUser();
 
   if (!projectId) {
-    return NextResponse.json({ error: "Project Information missing" });
+    const userProjects = await db
+      .select()
+      .from(projects)
+      .where(eq(projects.userEmail, user?.primaryEmailAddress?.emailAddress ?? ""));
+    return NextResponse.json(userProjects);
   }
 
   const userProject = await db

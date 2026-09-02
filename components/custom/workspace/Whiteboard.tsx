@@ -4,7 +4,7 @@ import dynamic from "next/dynamic";
 import "@excalidraw/excalidraw/index.css";
 import axios from "axios";
 import { useParams } from "next/navigation";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import type { ExcalidrawImperativeAPI } from "@excalidraw/excalidraw/types";
 import { Sparkle } from "lucide-react";
 
@@ -22,11 +22,32 @@ const Excalidraw = dynamic(
   }
 );
 
-function Whiteboard() {
+function Whiteboard({
+  onApiReady,
+}: {
+  onApiReady?: (api: ExcalidrawImperativeAPI) => void;
+}) {
   const [excalidrawAPI, setExcalidrawAPI] =
     useState<ExcalidrawImperativeAPI | null>(null);
 
   const saveTimeRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const latestDataRef = useRef<{ elements: readonly any[]; appState: any; files: any } | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (saveTimeRef.current) {
+        clearTimeout(saveTimeRef.current);
+        if (latestDataRef.current) {
+          SaveCanvasChanges(
+            latestDataRef.current.elements,
+            latestDataRef.current.appState,
+            latestDataRef.current.files,
+            true // true indicates silent save (no toast)
+          );
+        }
+      }
+    };
+  }, []);
 
   // Your route is /workspace/[projectid]
   const { projectid } = useParams<{ projectid: string }>();
@@ -56,24 +77,23 @@ function Whiteboard() {
       setSelectedElement(null);
     }
 
+    latestDataRef.current = { elements, appState, files };
+
     if (saveTimeRef.current) {
       clearTimeout(saveTimeRef.current);
     }
 
     saveTimeRef.current = setTimeout(() => {
-      SaveCanvasChanges(elements, appState, files);
-
-      toast.add({
-        title: "Changes Saved",
-        type: "success",
-      });
+      SaveCanvasChanges(elements, appState, files, false);
+      saveTimeRef.current = null;
     }, 10000);
   }
 
   async function SaveCanvasChanges(
     elements: readonly any[],
     appState: any,
-    files: any
+    files: any,
+    isSilent: boolean = false
   ) {
     try {
       if (!projectid) {
@@ -81,14 +101,39 @@ function Whiteboard() {
         return;
       }
 
+      let thumbnail = "";
+      if (elements && elements.length > 0) {
+        try {
+          const { exportToSvg } = await import("@excalidraw/excalidraw");
+          const svg = await exportToSvg({
+            elements,
+            appState: { ...appState, exportWithDarkMode: false },
+            files,
+          });
+          
+          if (svg) {
+            thumbnail = svg.outerHTML;
+          }
+        } catch (e) {
+          console.error("Failed to generate thumbnail:", e);
+        }
+      }
+
       const result = await axios.post("/api/whiteboard", {
         projectId: projectid,
         elements,
         appState,
         files,
+        thumbnail,
       });
 
       console.log("Whiteboard saved:", result.data);
+      if (!isSilent) {
+        toast.add({
+          title: "Changes Saved",
+          type: "success",
+        });
+      }
     } catch (error) {
       console.error("Failed to save whiteboard:", error);
 
@@ -136,6 +181,7 @@ function Whiteboard() {
       <Excalidraw
         excalidrawAPI={(api) => {
           setExcalidrawAPI(api);
+          if (onApiReady) onApiReady(api);
         }}
         onChange={handleCanvasChange}
       />

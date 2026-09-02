@@ -21,6 +21,7 @@ export const projects = pgTable("projects", {
   projectId: varchar("projectId").notNull().unique(),
   projectName: varchar("projectName").notNull(),
   userEmail: varchar("userEmail").notNull(),
+  thumbnail: text("thumbnail"),
 
   createdAt: timestamp("craeteed_at").defaultNow().notNull(),
 });

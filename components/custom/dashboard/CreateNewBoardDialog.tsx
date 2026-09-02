@@ -1,13 +1,10 @@
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Dialog,
-  DialogClose,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/toast";
@@ -20,8 +17,10 @@ import { useState } from "react";
 
 function CreateNewBoardDialog({
   variant,
+  children,
 }: {
   variant?: VariantProps<typeof buttonVariants>["variant"];
+  children?: React.ReactNode;
 }) {
   const [workspaceName, setWorkspaceName] = useState("");
   const [loading, setLoading] = useState(false);
@@ -60,11 +59,21 @@ function CreateNewBoardDialog({
 
   return (
     <Dialog open={dialog} onOpenChange={setDialog}>
-      <DialogTrigger>
-        <Button variant={variant} className="w-full">
-          <Plus /> Create New Board
+      {/* Open Dialog Button or Custom Trigger */}
+      {children ? (
+        <div onClick={() => setDialog(true)} className="w-full h-full cursor-pointer flex items-center justify-center hover:color-black">
+          {children}
+        </div>
+      ) : (
+        <Button
+          className={`${buttonVariants({ variant })} w-full flex items-center justify-center`}
+          onClick={() => setDialog(true)}
+        >
+          <Plus className="mr-2" /> Create New Board
         </Button>
-      </DialogTrigger>
+      )}
+
+      {/* Dialog Content */}
       <DialogContent className="bg-white">
         <DialogHeader>
           <DialogTitle className="text-2xl text-black">
@@ -83,16 +92,16 @@ function CreateNewBoardDialog({
           />
         </div>
         <DialogFooter>
-          <DialogClose>
-            <Button variant="destructive">Cancel</Button>
-          </DialogClose>
+          <Button variant="destructive" onClick={() => setDialog(false)}>
+            Cancel
+          </Button>
           <Button
             variant="secondary"
             disabled={workspaceName.trim() === "" || loading}
             onClick={handleCreateBoard}
           >
             {loading && (
-              <LoaderCircleIcon className="animate-spin"></LoaderCircleIcon>
+              <LoaderCircleIcon className="animate-spin" />
             )}
             Create
           </Button>
