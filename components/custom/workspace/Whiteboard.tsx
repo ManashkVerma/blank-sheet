@@ -177,7 +177,7 @@ function Whiteboard({
       style={{ height: "91vh" }}
     >
       <Excalidraw
-        excalidrawAPI={(api) => {
+        excalidrawAPI={(api: ExcalidrawImperativeAPI) => {
           setExcalidrawAPI(api);
           if (onApiReady) onApiReady(api);
         }}
