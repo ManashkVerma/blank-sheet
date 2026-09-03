@@ -108,7 +108,7 @@ function getShapeType(type: string) {
 
     case "input":
     case "output":
-      return "parallelogram";
+      return "rectangle";
 
     case "ellipse":
       return "ellipse";
