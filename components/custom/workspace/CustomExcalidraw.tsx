@@ -1,8 +1,9 @@
 "use client";
 
+import React from "react";
 import { Excalidraw, MainMenu } from "@excalidraw/excalidraw";
 
-export default function CustomExcalidraw(props: any) {
+export default function CustomExcalidraw(props: React.ComponentProps<typeof Excalidraw>) {
   return (
     <Excalidraw {...props}>
       <MainMenu>
