@@ -5,9 +5,8 @@ import "@excalidraw/excalidraw/index.css";
 import axios from "axios";
 import { useParams } from "next/navigation";
 import { useRef, useState, useEffect } from "react";
-import type { ExcalidrawImperativeAPI } from "@excalidraw/excalidraw/types";
-import type { ExcalidrawElement } from "@excalidraw/excalidraw/types/element/types";
-import type { AppState, BinaryFiles } from "@excalidraw/excalidraw/types/types";
+import type { ExcalidrawImperativeAPI, AppState, BinaryFiles } from "@excalidraw/excalidraw/types";
+import type { ExcalidrawElement } from "@excalidraw/excalidraw/element/types";
 import { Sparkle } from "lucide-react";
 
 import { toast } from "@/components/ui/toast";

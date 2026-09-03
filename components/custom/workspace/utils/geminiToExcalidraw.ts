@@ -3,6 +3,8 @@ import {
 } from "@excalidraw/excalidraw";
 import dagre from "dagre";
 
+type ElementSkeleton = NonNullable<Parameters<typeof convertToExcalidrawElements>[0]>[number];
+
 type GeminiNode = {
   id: string;
   type: string;
@@ -324,7 +326,7 @@ export function geminiToExcalidraw(
    * --------------------------------------------
    */
 
-  const shapeSkeletons: any[] = [];
+  const shapeSkeletons: ElementSkeleton[] = [];
 
   for (const node of nodes) {
     const colors = getColors(
@@ -413,7 +415,7 @@ export function geminiToExcalidraw(
    * --------------------------------------------
    */
 
-  const edgeSkeletons: any[] = [];
+  const edgeSkeletons: ElementSkeleton[] = [];
 
   for (const edge of diagram.edges ?? []) {
     const from = nodeMap.get(edge.from);
