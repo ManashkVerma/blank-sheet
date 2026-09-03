@@ -38,19 +38,19 @@ type AITool = {
 type GeminiElement = {
   id: string;
   type:
-    | "rectangle"
-    | "diamond"
-    | "ellipse"
-    | "text"
-    | "container"
-    | "service"
-    | "button"
-    | "start"
-    | "end"
-    | "process"
-    | "decision"
-    | "input"
-    | "output";
+  | "rectangle"
+  | "diamond"
+  | "ellipse"
+  | "text"
+  | "container"
+  | "service"
+  | "button"
+  | "start"
+  | "end"
+  | "process"
+  | "decision"
+  | "input"
+  | "output";
 
   label?: string;
 
@@ -528,7 +528,7 @@ Return JSON only.
       </div>
 
       {/* Footer */}
-      <Footer selectedToolData={selectedToolData} />
+      {/* <Footer selectedToolData={selectedToolData} /> */}
     </div>
   );
 }

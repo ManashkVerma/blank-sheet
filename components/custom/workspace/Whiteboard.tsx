@@ -14,10 +14,7 @@ import { Button } from "@/components/ui/button";
 import AIFloatingSidebar from "./AIFloatingSidebar";
 
 const Excalidraw = dynamic(
-  () =>
-    import("@excalidraw/excalidraw").then(
-      (mod) => mod.Excalidraw
-    ),
+  () => import("./CustomExcalidraw"),
   {
     ssr: false,
   }
