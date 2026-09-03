@@ -20,29 +20,29 @@
 
 ---
 
-## 📖 About
+## 📖 Overview
 
-**BlankSheet** is a full-stack AI-powered diagramming workspace designed to help users transform natural-language ideas into structured and interactive visual diagrams.
+**BlankSheet** is a full-stack AI-powered diagramming workspace that transforms natural-language ideas into structured, interactive visual diagrams.
 
-Instead of manually creating every shape, connection, and component from scratch, users can describe what they want using natural language and use AI-assisted generation to create an initial diagram that can then be edited and refined inside the workspace.
+Instead of manually creating every shape, connection, label, and component, users can describe the system or workflow they have in mind, generate an initial diagram through AI assistance, and then edit and refine the result inside an interactive workspace.
 
-### What BlankSheet provides
+The application combines:
 
-- AI-assisted diagram generation
-- Interactive diagram editing
-- Project management
-- Persistent project data
-- Modern responsive workspace
-- Reusable React components
-- Type-safe development with TypeScript
-- PostgreSQL-backed data storage
-- Production deployment with Vercel
+* 🤖 AI-assisted diagram generation
+* 🎨 Interactive diagram editing
+* 📁 Project-based organization
+* 🗄️ PostgreSQL-backed persistence
+* 🧩 Reusable React components
+* 🔷 TypeScript-based development
+* 🚀 Production deployment with Vercel
+
+---
 
 # ✨ Features
 
 ## 🤖 AI-Powered Diagram Generation
 
-Describe the diagram you want using natural language.
+Describe a system, workflow, architecture, or idea using natural language and generate a structured visual diagram.
 
 ### Example Prompt
 
@@ -53,7 +53,7 @@ backend API, authentication service,
 PostgreSQL database and payment gateway.
 ```
 
-The AI-assisted workflow processes the prompt and generates a structured diagram that can be further edited and refined inside the workspace.
+The AI-assisted workflow generates an initial diagram that can then be edited and refined inside the workspace.
 
 ---
 
@@ -61,15 +61,17 @@ The AI-assisted workflow processes the prompt and generates a structured diagram
 
 BlankSheet provides a dedicated visual workspace for creating, viewing, editing, and refining diagrams.
 
-### The workspace supports
+### Workspace capabilities
 
-- Interactive diagram editing
-- Visual organization
-- Diagram refinement
-- Workspace controls
-- AI-assisted actions
-- Canvas-based interaction
-- Editing of generated diagrams
+* Interactive diagram editing
+* Canvas-based interaction
+* Visual organization
+* Diagram refinement
+* Workspace controls
+* AI-assisted actions
+* Editing of generated diagrams
+
+The goal is to combine the speed of AI generation with the control of a traditional visual editor.
 
 ---
 
@@ -77,238 +79,223 @@ BlankSheet provides a dedicated visual workspace for creating, viewing, editing,
 
 Projects provide a structured way to organize diagram-related work.
 
-The application allows project data to be persisted using a PostgreSQL-backed database layer, making it possible to maintain diagram-related information between sessions.
+Project data is persisted using PostgreSQL, allowing users to maintain diagram-related information across sessions.
 
 ---
 
-## ⚡ Modern Workspace
+## 🧩 Reusable UI Architecture
 
-BlankSheet is designed around a modern workspace experience focused on diagram creation.
+The application is organized around reusable React components, custom hooks, shared application logic, database modules, and utility layers.
 
-The interface includes:
-
-- Responsive layouts
-- Interactive controls
-- Dedicated workspace tools
-- AI-assisted actions
-- Reusable UI components
-- Clean and minimal design
+This separates responsibilities across the codebase and makes the application easier to maintain and extend.
 
 ---
 
-## 🧩 Modular Architecture
+## 📱 Responsive Workspace
 
-The application is organized into separate functional layers to make the codebase easier to maintain and extend.
+The interface is designed around a clean workspace experience with:
+
+* Responsive layouts
+* Interactive controls
+* Dedicated workspace tools
+* Reusable UI components
+* AI-assisted actions
+* Minimal visual organization
+
+---
+
+# 🏆 Engineering Highlights
+
+BlankSheet is designed as a practical full-stack system rather than a static AI demo.
+
+### ⚡ Full-Stack Architecture
+
+Built a complete full-stack web application using **Next.js, React, TypeScript, PostgreSQL, and Drizzle ORM**, covering the interactive frontend, application logic, persistence layer, and production deployment.
+
+### 🤖 AI-to-UI Pipeline
+
+Implemented an end-to-end workflow where **natural-language input is transformed into structured diagram data**, which is then rendered inside an interactive workspace for further modification.
+
+### 🎨 Interactive Editor
+
+Integrated a canvas-based editing experience that allows generated diagrams to be **edited, organized, and refined after generation**, keeping users in control of the final output.
+
+### 🧩 10+ Reusable Components
+
+Built and organized **10+ reusable UI components** to modularize application interfaces and workspace functionality.
+
+### 🗄️ Database Persistence
+
+Implemented **PostgreSQL-backed persistence using Drizzle ORM** to store project-related data and maintain application state across user sessions.
+
+### 🏗️ Modular Code Organization
+
+Separated application responsibilities across:
 
 ```text
-Application
-│
-├── Routes / Pages
-│
-├── UI Components
-│
-├── Hooks
-│
-├── Database
-│
-├── Utilities
-│
-└── Shared Logic
+Routes
+Components
+Context
+Hooks
+Database
+Utilities
+Shared Logic
 ```
+
+This provides clear boundaries between UI, application logic, and persistence.
+
+### 🔷 Type-Safe Development
+
+Used **TypeScript** throughout the application to improve type safety, maintainability, and development reliability across the codebase.
+
+### 🔐 Environment-Based Configuration
+
+Configured sensitive database and AI credentials through environment variables rather than hard-coding secrets into the application source.
+
+### 🚀 Production Deployment
+
+Deployed the complete application to **Vercel**, making the AI-assisted diagram generation workflow and database-backed workspace available as a production web application.
+
+---
+
+# 🏗️ System Architecture
+
+```text
+                           ┌───────────────────┐
+                           │       USER        │
+                           └─────────┬─────────┘
+                                     │
+                                     │ Natural Language Prompt
+                                     ▼
+                           ┌───────────────────┐
+                           │   AI PROCESSING   │
+                           └─────────┬─────────┘
+                                     │
+                                     │ Structured Diagram
+                                     ▼
+                   ┌────────────────────────────────┐
+                   │      INTERACTIVE WORKSPACE     │
+                   │                                │
+                   │        Canvas + Editor         │
+                   └───────────────┬────────────────┘
+                                   │
+                    ┌──────────────┴──────────────┐
+                    │                             │
+                    ▼                             ▼
+             ┌──────────────┐             ┌──────────────┐
+             │ Edit / Refine│             │ Project Data │
+             └──────────────┘             └───────┬──────┘
+                                                   │
+                                                   ▼
+                                           ┌────────────────┐
+                                           │   PostgreSQL   │
+                                           └────────────────┘
+```
+
+---
+
+# 🔄 Core Application Workflow
+
+```text
+                         ┌──────────────────┐
+                         │    User Idea     │
+                         └────────┬─────────┘
+                                  │
+                                  ▼
+                    ┌──────────────────────────┐
+                    │ Natural-Language Prompt  │
+                    └────────────┬─────────────┘
+                                 │
+                                 ▼
+                       ┌──────────────────┐
+                       │   AI Processing  │
+                       └────────┬─────────┘
+                                │
+                                ▼
+                     ┌────────────────────┐
+                     │ Diagram Generation │
+                     └─────────┬──────────┘
+                               │
+                               ▼
+                 ┌────────────────────────────┐
+                 │    Interactive Workspace   │
+                 └────────────┬───────────────┘
+                              │
+                    ┌─────────┼─────────┐
+                    │         │         │
+                    ▼         ▼         ▼
+                  Edit      Refine    Organize
+                    │         │         │
+                    └─────────┼─────────┘
+                              │
+                              ▼
+                     ┌──────────────────┐
+                     │ Project Storage  │
+                     └────────┬─────────┘
+                              │
+                              ▼
+                       ┌─────────────┐
+                       │ PostgreSQL  │
+                       └─────────────┘
+```
+
+---
+
+# 🧠 Architecture Principles
+
+BlankSheet follows a modular application structure designed to separate concerns.
+
+### Presentation Layer
+
+Responsible for:
+
+* React components
+* Workspace UI
+* Interactive controls
+* Diagram interactions
+* Responsive layouts
+
+### Application Layer
+
+Responsible for:
+
+* Shared application state
+* Hooks
+* Context
+* Utility functions
+* AI-assisted workflows
+
+### Persistence Layer
+
+Responsible for:
+
+* PostgreSQL database
+* Drizzle ORM
+* Schema configuration
+* Project persistence
+
+### Infrastructure
+
+Responsible for:
+
+* Environment configuration
+* Production build
+* Vercel deployment
 
 ---
 
 # 🛠️ Tech Stack
 
-| Technology       | Purpose                               |
-| ---------------- | ------------------------------------- |
-| **Next.js**      | Full-stack React framework            |
-| **React**        | Interactive user interface            |
-| **TypeScript**   | Type-safe application development     |
-| **Tailwind CSS** | Styling and responsive design         |
-| **PostgreSQL**   | Persistent data storage               |
-| **Drizzle ORM**  | Database access and schema management |
-| **Vercel**       | Production deployment                 |
-
----
-
-# 🏗️ High-Level Architecture
-
-```text
-                         ┌───────────────────┐
-                         │       USER        │
-                         └─────────┬─────────┘
-                                   │
-                                   │ Natural Language Prompt
-                                   ▼
-                         ┌───────────────────┐
-                         │   AI PROCESSING   │
-                         └─────────┬─────────┘
-                                   │
-                                   │ Structured Diagram
-                                   ▼
-                  ┌────────────────────────────────┐
-                  │      INTERACTIVE WORKSPACE     │
-                  │                                │
-                  │      Canvas + Editor           │
-                  └───────────────┬────────────────┘
-                                  │
-                     ┌────────────┴────────────┐
-                     │                         │
-                     ▼                         ▼
-              ┌──────────────┐         ┌──────────────┐
-              │ Edit / Refine│         │ Project Data │
-              └──────────────┘         └───────┬──────┘
-                                               │
-                                               ▼
-                                      ┌────────────────┐
-                                      │   PostgreSQL   │
-                                      └────────────────┘
-```
-
----
-
-# 💡 How It Works
-
-The core workflow of BlankSheet is:
-
-```text
-User Idea
-    │
-    ▼
-Natural-Language Prompt
-    │
-    ▼
-AI Processing
-    │
-    ▼
-Diagram Generation
-    │
-    ▼
-Interactive Workspace
-    │
-    ├── Edit
-    ├── Refine
-    └── Organize
-    │
-    ▼
-Project Storage
-    │
-    ▼
-PostgreSQL
-```
-
-This workflow helps reduce the manual effort needed to create the initial version of a diagram.
-
----
-
-# 🎯 Use Cases
-
-## 💻 Software Architecture
-
-Create diagrams for:
-
-- Frontend applications
-- Backend services
-- REST APIs
-- Databases
-- Authentication systems
-- External integrations
-- Application infrastructure
-
-### Example
-
-```text
-                    ┌─────────────┐
-                    │   Client    │
-                    └──────┬──────┘
-                           │
-                           ▼
-                    ┌─────────────┐
-                    │  Frontend   │
-                    └──────┬──────┘
-                           │
-                           ▼
-                    ┌─────────────┐
-                    │  Backend    │
-                    │     API     │
-                    └──────┬──────┘
-                           │
-                    ┌──────┴──────┐
-                    ▼             ▼
-             ┌───────────┐ ┌─────────────┐
-             │ PostgreSQL│ │  Services   │
-             └───────────┘ └─────────────┘
-```
-
----
-
-## 🏗️ System Design
-
-BlankSheet can be used to visualize:
-
-- Distributed systems
-- Backend architecture
-- APIs
-- Microservices
-- Databases
-- Authentication
-- Third-party services
-- Data flow
-
----
-
-## 🗄️ Database Design
-
-Useful for representing:
-
-- Entities
-- Attributes
-- Relationships
-- Database structures
-- Data relationships
-
----
-
-## 🔄 Flowcharts
-
-Create diagrams for:
-
-- Algorithms
-- Application workflows
-- Business processes
-- Decision trees
-- User flows
-- Process documentation
-
----
-
-## 📚 Technical Documentation
-
-Use diagrams to explain complex systems and make technical documentation easier to understand.
-
----
-
-## 🧠 Learning & Brainstorming
-
-Transform abstract concepts and ideas into structured visual representations.
-
----
-
-# 📊 Project Highlights
-
-| Category      | Details                          |
-| ------------- | -------------------------------- |
-| Project Type  | AI-Powered Diagramming Workspace |
-| Architecture  | Full-Stack Web Application       |
-| Frontend      | Next.js + React                  |
-| Language      | TypeScript                       |
-| Styling       | Tailwind CSS                     |
-| Database      | PostgreSQL                       |
-| ORM           | Drizzle ORM                      |
-| AI            | AI-Assisted Diagram Generation   |
-| Deployment    | Vercel                           |
-| UI Components | 10+ Reusable Components          |
+| Technology       | Purpose                                      |
+| ---------------- | -------------------------------------------- |
+| **Next.js**      | Full-stack React framework                   |
+| **React**        | Interactive user interface                   |
+| **TypeScript**   | Type-safe application development            |
+| **Tailwind CSS** | Styling and responsive UI                    |
+| **PostgreSQL**   | Persistent data storage                      |
+| **Drizzle ORM**  | Database access and schema management        |
+| **Vercel**       | Production deployment                        |
+| **AI**           | Natural-language-assisted diagram generation |
 
 ---
 
@@ -349,18 +336,126 @@ blank-sheet/
 
 ---
 
+# 🎯 Use Cases
+
+## 💻 Software Architecture
+
+Create diagrams for:
+
+* Frontend applications
+* Backend services
+* REST APIs
+* Databases
+* Authentication systems
+* External integrations
+* Application infrastructure
+
+### Example
+
+```text
+                     ┌─────────────┐
+                     │   Client    │
+                     └──────┬──────┘
+                            │
+                            ▼
+                     ┌─────────────┐
+                     │  Frontend   │
+                     └──────┬──────┘
+                            │
+                            ▼
+                     ┌─────────────┐
+                     │  Backend    │
+                     │     API     │
+                     └──────┬──────┘
+                            │
+                     ┌──────┴──────┐
+                     ▼             ▼
+              ┌───────────┐ ┌─────────────┐
+              │ PostgreSQL│ │  Services   │
+              └───────────┘ └─────────────┘
+```
+
+---
+
+## 🏗️ System Design
+
+Visualize:
+
+* Distributed systems
+* Backend architecture
+* APIs
+* Microservices
+* Databases
+* Authentication
+* Third-party services
+* Data flows
+
+---
+
+## 🗄️ Database Design
+
+Useful for representing:
+
+* Entities
+* Attributes
+* Relationships
+* Database structures
+* Data relationships
+
+---
+
+## 🔄 Flowcharts
+
+Create diagrams for:
+
+* Algorithms
+* Application workflows
+* Business processes
+* Decision trees
+* User flows
+* Process documentation
+
+---
+
+## 📚 Technical Documentation
+
+Use visual diagrams to explain complex systems and make technical documentation easier to understand.
+
+---
+
+## 🧠 Learning & Brainstorming
+
+Transform abstract concepts and technical ideas into structured visual representations.
+
+---
+
+# 📊 Project Snapshot
+
+| Category                | Details                          |
+| ----------------------- | -------------------------------- |
+| **Project Type**        | AI-Powered Diagramming Workspace |
+| **Architecture**        | Full-Stack Web Application       |
+| **Frontend**            | Next.js + React                  |
+| **Language**            | TypeScript                       |
+| **Styling**             | Tailwind CSS                     |
+| **Database**            | PostgreSQL                       |
+| **ORM**                 | Drizzle ORM                      |
+| **AI**                  | AI-Assisted Diagram Generation   |
+| **Reusable Components** | 10+                              |
+| **Deployment**          | Vercel                           |
+
+---
+
 # 🚀 Getting Started
 
-Follow the steps below to run BlankSheet locally.
+## Prerequisites
 
-## ✅ Prerequisites
+Make sure the following are installed:
 
-Make sure you have the following installed:
-
-- Node.js 18+
-- npm
-- PostgreSQL
-- Git
+* Node.js 18+
+* npm
+* PostgreSQL
+* Git
 
 Verify your installations:
 
@@ -372,21 +467,16 @@ git --version
 
 ---
 
-# 1. Clone the Repository
+## 1. Clone the Repository
 
 ```bash
 git clone https://github.com/ManashkVerma/blank-sheet.git
-```
-
-Navigate into the project:
-
-```bash
 cd blank-sheet
 ```
 
 ---
 
-# 2. Install Dependencies
+## 2. Install Dependencies
 
 ```bash
 npm install
@@ -394,33 +484,33 @@ npm install
 
 ---
 
-# 3. Configure Environment Variables
+## 3. Configure Environment Variables
 
-Create a `.env.local` file in the root of the project.
+Create a `.env.local` file in the project root.
 
 ```env
 DATABASE_URL="your_postgresql_connection_string"
 ```
 
-### Example
+Example:
 
 ```env
 DATABASE_URL="postgresql://username:password@localhost:5432/blank_sheet"
 ```
 
-If your AI integration requires additional API keys, add them to the same file.
+Configure the required AI credentials as environment variables as well.
 
-For example:
+Example:
 
 ```env
 AI_API_KEY="your_api_key"
 ```
 
-> **Important:** Never commit `.env.local` or private API keys to GitHub.
+> Never commit `.env.local` or private API keys to GitHub.
 
 ---
 
-# 4. Setup the Database
+## 4. Setup the Database
 
 Push the database schema using Drizzle ORM:
 
@@ -428,13 +518,11 @@ Push the database schema using Drizzle ORM:
 npx drizzle-kit push
 ```
 
-Make sure your PostgreSQL database is running before executing the command.
+Make sure your PostgreSQL database is running before executing this command.
 
 ---
 
-# 5. Run the Development Server
-
-Start the development server:
+## 5. Start the Development Server
 
 ```bash
 npm run dev
@@ -446,43 +534,39 @@ The application will be available at:
 http://localhost:3000
 ```
 
-Open the URL in your browser.
-
 ---
 
 # 🧪 Development Commands
 
-## Start Development Server
+### Development
 
 ```bash
 npm run dev
 ```
 
-## Build for Production
+### Production Build
 
 ```bash
 npm run build
 ```
 
-## Start Production Server
+### Production Server
 
 ```bash
 npm start
 ```
 
-## Run Linter
+### Lint
 
 ```bash
 npm run lint
 ```
 
-> The available commands depend on the scripts configured in `package.json`.
-
 ---
 
-# 🔐 Environment Variables
+# 🔐 Environment Configuration
 
-Sensitive configuration should be stored in environment variables rather than source code.
+Sensitive configuration should be stored outside the source code.
 
 Example:
 
@@ -491,7 +575,7 @@ DATABASE_URL="your_database_url"
 AI_API_KEY="your_ai_api_key"
 ```
 
-Make sure your `.gitignore` contains:
+Recommended `.gitignore` entries:
 
 ```gitignore
 .env
@@ -499,7 +583,7 @@ Make sure your `.gitignore` contains:
 .env.*.local
 ```
 
-Never expose private credentials in client-side code or commit them to GitHub.
+Never expose private credentials through client-side code or commit them to the repository.
 
 ---
 
@@ -507,29 +591,25 @@ Never expose private credentials in client-side code or commit them to GitHub.
 
 BlankSheet is deployed using **Vercel**.
 
-## Production Application
+## 🚀 Production Application
 
-### 🚀 [https://blank-sheet-brown.vercel.app/](https://blank-sheet-brown.vercel.app/)
-
----
+**[Launch BlankSheet](https://blank-sheet-brown.vercel.app/)**
 
 ## Deploy Your Own Instance
 
 ### 1. Fork the Repository
 
-Fork the project:
-
+```text
 https://github.com/ManashkVerma/blank-sheet
+```
 
-### 2. Import Into Vercel
+### 2. Import into Vercel
 
 Connect the GitHub repository to Vercel.
 
 ### 3. Configure Environment Variables
 
-Add all required environment variables to your Vercel project.
-
-Example:
+Add the required variables:
 
 ```text
 DATABASE_URL
@@ -538,7 +618,7 @@ AI_API_KEY
 
 ### 4. Configure PostgreSQL
 
-Connect your deployment to a PostgreSQL database.
+Connect the deployment to a PostgreSQL database.
 
 ### 5. Deploy
 
@@ -546,72 +626,27 @@ Deploy the application through Vercel.
 
 ---
 
-# 🧭 Product Workflow
+# 💡 Why BlankSheet?
 
-```text
-                         BLANKSHEET WORKFLOW
-
-                              ┌─────────┐
-                              │  IDEA   │
-                              └────┬────┘
-                                   │
-                                   ▼
-                         ┌─────────────────┐
-                         │ Natural Language│
-                         │     Prompt      │
-                         └────────┬────────┘
-                                  │
-                                  ▼
-                         ┌─────────────────┐
-                         │  AI Generation  │
-                         └────────┬────────┘
-                                  │
-                                  ▼
-                         ┌─────────────────┐
-                         │     Diagram     │
-                         └────────┬────────┘
-                                  │
-                                  ▼
-                       ┌─────────────────────┐
-                       │ Interactive Editor  │
-                       └──────────┬──────────┘
-                                  │
-                        ┌─────────┴─────────┐
-                        │                   │
-                        ▼                   ▼
-                   ┌─────────┐        ┌─────────┐
-                   │ Refine  │        │  Save   │
-                   └─────────┘        └────┬────┘
-                                           │
-                                           ▼
-                                    ┌─────────────┐
-                                    │ PostgreSQL  │
-                                    └─────────────┘
-```
-
----
-
-# 🧠 Why BlankSheet?
-
-Traditional diagramming tools generally require users to manually create and arrange every element.
+Traditional diagramming requires users to manually create and arrange shapes, connections, labels, and system components.
 
 ### Traditional Workflow
 
 ```text
 Idea
- ↓
+  ↓
 Open Diagram Tool
- ↓
+  ↓
 Add Shapes
- ↓
+  ↓
 Add Connections
- ↓
+  ↓
 Add Labels
- ↓
+  ↓
 Arrange Elements
- ↓
+  ↓
 Edit
- ↓
+  ↓
 Finalize
 ```
 
@@ -619,63 +654,121 @@ Finalize
 
 ```text
 Idea
- ↓
+  ↓
 Describe It
- ↓
+  ↓
 AI-Assisted Generation
- ↓
+  ↓
 Interactive Diagram
- ↓
+  ↓
 Edit & Refine
- ↓
+  ↓
 Save
 ```
 
 BlankSheet focuses on simplifying the transition from:
 
-**Idea → Diagram**
+**Idea → Structured Diagram**
+
+while still giving the user complete control over the final result.
 
 ---
 
-# 📌 Key Engineering Concepts
+# 🔧 Engineering Concepts Demonstrated
 
-BlankSheet demonstrates practical implementation of:
+BlankSheet brings together practical software-engineering concepts across multiple layers:
 
-- Full-stack Next.js development
-- React component architecture
-- TypeScript
-- Interactive UI development
-- AI-assisted application workflows
-- PostgreSQL integration
-- Drizzle ORM
-- Database-backed persistence
-- Responsive web design
-- Modular application architecture
-- Production deployment
-- Modern frontend development
+### Frontend
+
+* React component architecture
+* Interactive UI development
+* Canvas-based interaction
+* Responsive workspace design
+* Reusable components
+* TypeScript
+
+### Backend / Application
+
+* Full-stack Next.js development
+* AI-assisted workflows
+* Application state management
+* Shared application logic
+* Modular route organization
+
+### Database
+
+* PostgreSQL integration
+* Drizzle ORM
+* Database schema management
+* Persistent project storage
+
+### Infrastructure
+
+* Environment-based configuration
+* Production builds
+* Vercel deployment
+
+---
+
+# 📈 Engineering Scope
+
+The project combines several distinct engineering concerns in one application:
+
+```text
+                 ┌─────────────────────┐
+                 │   Natural Language  │
+                 └──────────┬──────────┘
+                            │
+                            ▼
+                 ┌─────────────────────┐
+                 │    AI Processing    │
+                 └──────────┬──────────┘
+                            │
+                            ▼
+                 ┌─────────────────────┐
+                 │ Structured Diagram  │
+                 └──────────┬──────────┘
+                            │
+                            ▼
+        ┌──────────────────────────────────────┐
+        │          Interactive React UI        │
+        └──────────────────┬───────────────────┘
+                           │
+                ┌──────────┴──────────┐
+                │                     │
+                ▼                     ▼
+        ┌───────────────┐      ┌──────────────┐
+        │ User Editing  │      │  Persistence  │
+        └───────────────┘      └──────┬───────┘
+                                      │
+                                      ▼
+                               ┌─────────────┐
+                               │ PostgreSQL  │
+                               └─────────────┘
+```
 
 ---
 
 # 🔮 Future Improvements
 
-Potential future improvements include:
+The architecture can be extended with:
 
-- [ ] User authentication
-- [ ] Real-time collaborative editing
-- [ ] Multi-user workspaces
-- [ ] Public diagram sharing
-- [ ] PNG export
-- [ ] SVG export
-- [ ] PDF export
-- [ ] Diagram templates
-- [ ] Version history
-- [ ] Improved undo / redo
-- [ ] Advanced AI diagram refinement
-- [ ] AI-powered diagram explanations
-- [ ] Keyboard shortcuts
-- [ ] Workspace customization
-- [ ] Real-time cursor presence
-- [ ] Team-based projects
+* [ ] User authentication
+* [ ] Real-time collaborative editing
+* [ ] Multi-user workspaces
+* [ ] Public diagram sharing
+* [ ] PNG export
+* [ ] SVG export
+* [ ] PDF export
+* [ ] Diagram templates
+* [ ] Version history
+* [ ] Improved undo / redo
+* [ ] Advanced AI diagram refinement
+* [ ] AI-powered diagram explanations
+* [ ] Keyboard shortcuts
+* [ ] Workspace customization
+* [ ] Real-time cursor presence
+* [ ] Team-based projects
 
 ---
 
@@ -685,9 +778,9 @@ Contributions are welcome.
 
 ## 1. Fork the Repository
 
-Fork the repository:
-
+```text
 https://github.com/ManashkVerma/blank-sheet
+```
 
 ## 2. Clone Your Fork
 
@@ -726,7 +819,7 @@ git push origin feature/your-feature
 
 ## 8. Open a Pull Request
 
-Create a pull request describing the changes you made.
+Create a pull request describing the changes made.
 
 ---
 
@@ -742,23 +835,11 @@ Refer to the repository for the current license information.
 
 ## Manash Kumar Verma
 
-### GitHub
-
-https://github.com/ManashkVerma
-
-### Repository
-
-https://github.com/ManashkVerma/blank-sheet
-
-### Live Application
-
-https://blank-sheet-brown.vercel.app/
-
----
-
-# ⭐ Support
-
-If you find **BlankSheet** useful or interesting, consider giving the repository a ⭐ on GitHub.
+<p align="center">
+  <a href="https://github.com/ManashkVerma">
+    GitHub
+  </a>
+</p>
 
 ---
 
@@ -768,16 +849,14 @@ If you find **BlankSheet** useful or interesting, consider giving the repository
 | ------------ | --------------------------------------------------------- |
 | 🚀 Live Demo | [BlankSheet](https://blank-sheet-brown.vercel.app/)       |
 | 📂 GitHub    | [Repository](https://github.com/ManashkVerma/blank-sheet) |
-| 👨‍💻 Author    | [Manash Kumar Verma](https://github.com/ManashkVerma)     |
+| 👨‍💻 Author | [Manash Kumar Verma](https://github.com/ManashkVerma)     |
 
 ---
 
 <p align="center">
-
-# ✦ BlankSheet
-
-### From a blank canvas to a structured idea.
-
-Built with **Next.js · React · TypeScript · PostgreSQL · Drizzle ORM · AI**
-
+  <strong>✦ BlankSheet</strong>
+  <br/>
+  From a blank canvas to a structured idea.
+  <br/><br/>
+  Built with <strong>Next.js · React · TypeScript · PostgreSQL · Drizzle ORM · AI</strong>
 </p>
